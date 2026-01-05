@@ -17,11 +17,11 @@ website:
   #   type: primary # primary, secondary, success, danger, warning, info, light, dark
 
   page-navigation: false
-  title: "DATA 606 Fall 2025"
+  title: "DATA 606 Spring 2026"
   description: "DATA 606 - Statistics and Probability - CUNY School of Professional Studies"
-  site-url: "https://fall2025.data606.net/"
+  site-url: "https://spring2026.data606.net/"
 
-  repo-url: https://github.com/jbryer/DATA606-2025-Fall
+  repo-url: https://github.com/jbryer/DATA606-2026-Spring
   repo-actions: [edit, issue]
 
   open-graph: true
