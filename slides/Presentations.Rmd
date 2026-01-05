@@ -1,0 +1,68 @@
+---
+title: "DATA 606 Presentations"
+subtitle: "Statistics & Probability for Data Analytics"
+date: "Fall 2025"
+output:
+  xaringan::moon_reader:
+    css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
+    lib_dir: libs
+    seal: false
+    nature:
+      highlightStyle: solarized-light
+      highlightLanguage: R
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "16:9"
+      navigation:
+        scroll: false
+    includes:
+      in_header: [assets/header.html]
+      after_body: [assets/insert-logo.html]
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include = FALSE}
+source('../config.R')
+peer_feedback_form <- 'https://forms.gle/aNrd6Gm1VMFSmpsi8'
+```
+
+class: center, middle, inverse, title-slide
+
+# `r metadata$title`
+## `r metadata$subtitle`
+### `r metadata$author`
+### `r metadata$date`
+
+
+---
+class: font90
+# Rubric
+
+```{r, echo = FALSE}
+rubric <- readxl::read_excel('../Project/Data_Project_Rubric.xlsx')
+kable(rubric)
+```
+
+---
+class: font100
+# Directions
+
+.pull-left[
+* You have no more than 10 minutes.
+
+* If your abstract is in your slide deck, please don't read it.
+
+* Complete the peer feedback form for each presentations: `r peer_feedback_form`
+
+* Submit a PDF of your slides and abstract to Brightspace.
+
+* Good luck!
+]
+.pull-right[
+
+```{r, echo=FALSE, fig.width=5, fig.height=5}
+qrcode::qr_code(peer_feedback_form) |> plot(col = c('#FAFAFA', 'black'))
+```
+
+]
