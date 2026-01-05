@@ -1,0 +1,67 @@
+---
+title: "DATA606 - Statistics and Probability"
+tbl-colwidths: [10,10,20,5,5,5,5,5,5,5]
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+source('../../config.R')
+```
+
+This page contains an outline of the topics, content, and assignments for the semester.
+Note that this schedule will be updated as the semester progresses, with all changes documented here. **Meetups will be `r class_day` from `r class_time` unless noted otherwise.**
+
+[Click here to join the meetups](https://us02web.zoom.us/j/82211588219?pwd=NufjffoPm9BTE05ClrmqFaogM9Rdtr.1).
+
+```{r, echo=FALSE, results='asis'}
+slides_uri <- '/slides/'
+
+options(knitr.kable.NA = '')
+schedule <- readxl::read_excel('../../Schedule.xlsx') |> as.data.frame()
+# icons::download_fontawesome()
+
+schedule$Date <- format(schedule$Date, '%a, %b %d')
+
+links <- !is.na(schedule$Link)
+if(sum(links) > 0) {
+	# tmp <- paste0(' <a href="', schedule[links,]$Link, '">', icons::fontawesome('readme'), '</a>')
+	# tmp <- gsub('\\n', '', tmp)
+	# schedule[links,]$Link <- tmp
+	schedule[links,]$Topic <- paste0('[', schedule[links,]$Topic, '](',
+									 schedule[links,]$Link, ')')
+}
+
+slides <- !is.na(schedule$Slides)
+if(sum(slides) > 0) {
+	slide_links <- paste0(
+		'<a href="', slides_uri, schedule[slides,]$Slides, '.html" target="_new">', 
+		icons::fontawesome('safari'), '</a>',
+		'&nbsp;&nbsp;',
+		'<a href="', slides_uri, schedule[slides,]$Slides, '.pdf" target="_new">', 
+		icons::fontawesome('file-pdf'), '</a>'
+	)
+	slide_links <- gsub('\\n', '', slide_links)
+	schedule[slides,]$Slides <- slide_links
+}
+
+video <- !is.na(schedule$Video)
+if(sum(video) > 0) {
+	video_links <- paste0(
+		'<a href="https://youtu.be/', schedule[video,]$Video, '" target="_new">',
+		icons::fontawesome('youtube'), '</a>'
+	)
+	video_links <- gsub('\\n', '', video_links)
+	schedule[video,]$Video <- video_links
+}
+
+schedule |>
+	dplyr::select(Date, StartTime, Topic, Slides, Video) |>
+	knitr::kable(align = c('l', 'l', 'l', 'c', 'c'), escape = FALSE) #|> kableExtra::kable_styling(full_width = FALSE)
+```
+
+---
+
+**Please note:** *Students who participate in this class with their camera on or use a profile image are agreeing to have their video or image recorded solely for the purpose of creating a record for students enrolled in the class to refer to, including those enrolled students who are unable to attend live. If you are unwilling to consent to have your profile or video image recorded, be sure to keep your camera off and do not use a profile image. Likewise, students who un-mute during class and participate orally are agreeing to have their voices recorded. If you are not willing to consent to have your voice recorded during class, you will need to keep your mute button activated and communicate exclusively using the "chat" feature, which allows students to type questions and comments live.* [Click here for CUNY's camera use policy](https://www.cuny.edu/wp-content/uploads/sites/4/page-assets/academics/faculty-affairs/Camera-Use-Guidance-for-Online-and-Hybrid-Courses_FINAL-JUNE-20-2024.pdf)
+
+
