@@ -20,7 +20,6 @@ The proposal can be more informal using bullet points where necessary and includ
 * Response: What is the response variable, and what type is it (numerical/categorical)?
 * Explanatory: What is the explanatory variable(s), and what type is it (numerical/categorical)?
 * Relevant summary statistics 
-
 * [Download project proposal template](https://raw.githubusercontent.com/jbryer/`r github_link`/master/Project/DATA606_proposal_template.Rmd)
 * [Download project template](https://raw.githubusercontent.com/jbryer/`r github_link`/master/Project/DATA606_project_template.Rmd)
 

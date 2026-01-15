@@ -10,7 +10,7 @@ source('../../config.R')
 ```
 
 This page contains an outline of the topics, content, and assignments for the semester.
-Note that this schedule will be updated as the semester progresses, with all changes documented here. **Meetups will be `r class_day` from `r class_time` unless noted otherwise.**
+Note that this schedule will be updated as the semester progresses, with all changes documented here. **Meetups will be `r class_day` from `r class_time` unless noted otherwise.** If you cannot attend live, we expect you to watch the recordings. Information not in the textbook or this website will be presented.
 
 [Click here to join the meetups](https://us02web.zoom.us/j/82211588219?pwd=NufjffoPm9BTE05ClrmqFaogM9Rdtr.1).
 
