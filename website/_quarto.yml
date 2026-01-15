@@ -9,12 +9,12 @@ website:
     # icon: slack # https://icons.getbootstrap.com
     # dismissable: false
     # type: info # primary, secondary, success, danger, warning, info, light, dark
-  # announcement:
-  #   content: "The first meetup to introduce the course will be Thursday at 1pm. The link to join is on the [schedule](/course/schedule.html) page. If you can't make it at this time the recording will be posted by the end of the day."
-  #   # position: below-navbar # above-navbar or below-navbar
-  #   icon: info-circle # https://icons.getbootstrap.com
-  #   dismissable: false
-  #   type: primary # primary, secondary, success, danger, warning, info, light, dark
+  announcement:
+    content: "The first meetup to introduce the course will be Monday, January 26th at 8:00pm. The link to join is on the [schedule](/course/schedule.html) page. If you can't make it at this time the recording will be posted by the end of the day."
+    # position: below-navbar # above-navbar or below-navbar
+    icon: info-circle # https://icons.getbootstrap.com
+    dismissable: false
+    type: primary # primary, secondary, success, danger, warning, info, light, dark
 
   page-navigation: false
   title: "DATA 606 Spring 2026"
@@ -42,11 +42,11 @@ website:
         href: course/schedule.qmd
         text: "Schedule"
       - icon: github
-        href: https://github.com/jbryer/DATA606-2025-Fall
+        href: https://github.com/jbryer/DATA606-2026-Spring
         text: "Github"
         target: _blank
       - icon: slack
-        href: https://data606fall2025.slack.com
+        href: https://cuny-msds.slack.com
         text: "Slack"
         target: _blank
       - icon: link-45deg
@@ -63,7 +63,7 @@ website:
             target: _blank
       - icon: envelope
         text: "Email"
-        url: mailto:jason.bryer@cuny.edu?subject=DATA606
+        url: mailto:jason.bryer@cuny.edu;angela.lui@cuny.edu?subject=DATA606
 
     style: "docked"
     search: true

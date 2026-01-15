@@ -6,7 +6,7 @@ title: "Project"
 source('../../config.R')
 ```
 
-The purpose of the data project is for you to conduct a reproducible analysis with a data set of your choosing. There are two components to the project, the proposal, which will be graded on a pass/fail basis, and the final report. The outline for each of these are provided in the templates. When submitting the assignments, include the R Markdown file (change the name to include your last name, for example `Bryer-Proposal.Rmd` and `Bryer-Project.Rmd`) along with any supplementary files necessary to run the R Markdown file (e.g. data files, screenshots, etc.). Suggestions for possible data sources are included below, however you are free to use data not listed below. The only requirement is that you are allowed to share the data. Projects will be shared with others on this website so should be presented in a way that other students can reproduce your analysis.
+The purpose of the data project is for you to conduct a reproducible analysis with a data set of your choosing. There are two components to the project, the proposal, which will be graded on a pass/fail basis, and the final report. The outline for each of these are provided in the templates. Suggestions for possible data sources are included below, however you are free to use data not listed below. The only requirement is that you are allowed to share the data. Projects will be shared with others on this website so should be presented in a way that other students can reproduce your analysis.
 
 ## Project Proposal
 
@@ -29,9 +29,10 @@ The proposal can be more informal using bullet points where necessary and includ
 
 ## Final Project
 
-* You are required to attend ONLY ONE of those time slots. You will do your presentation, watch the other presentations, and provide peer feedback (will be shared anonymously afterward).
+**You are required to attend one of the 90 minute presentation time slots. You will do your presentation, watch the other presentations, and provide peer feedback. We will not accept recorded presentations.**
 
-[Example project slide deck](/slides/Example_Project_Slides.html#1)
+[Click here for the signup sheet](`r project_signup_link`)
+
 
 #### Checklist / Suggested Outline
 
@@ -53,6 +54,7 @@ The proposal can be more informal using bullet points where necessary and includ
 
 #### Rubric
 
+[Example project slide deck](/slides/Example_Project_Slides.html#1)
 
 |Domain               |Accomplished                                                                                                                                |Proficient                                                                                                                          |Needs Improvement                                                                                            |
 |:--------------------|:-------------------------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------------------------|

@@ -69,7 +69,7 @@ bg.color <- '#FFFFFF'
 data(penguins, package = 'palmerpenguins')
 p <- ggplot(data = penguins, aes(x = flipper_length_mm, y = bill_length_mm, color = species, shape = species)) +
 	geom_point(size = .25) +
-	geom_smooth(method = lm, se = FALSE, formula = y ~ x, size = 0.75) +
+	geom_smooth(method = lm, se = FALSE, formula = y ~ x, linewidth = 0.75) +
 	theme_void() +
 	scale_color_manual(values = c('#1F5CFF', '#FF9822', '#C571FC')) +
 	theme(legend.position = 'none')
@@ -93,11 +93,13 @@ sticker <- sticker(p,
 				   filename = out_file )
 
 sticker
+ggsave(filename = out_file, width = 600, height = 600, units = 'px', bg = 'transparent', dpi = 300)
 
 # Save a square version to use as an icon for Slack
 ggsave(filename = paste0(sub(' ', '', course), '-', sub(' ', '', semester), '-square.png'),
 	   plot = sticker,
 	   width = 50.8, height = 50.8, units = 'mm', bg = 'transparent', dpi = 300)
+	   # width = 100, height = 100, units = 'mm', bg = 'transparent', dpi = 300)
 
 # Copy file for use on the website
 file.copy(out_file,
@@ -134,13 +136,13 @@ file.copy(out_file,
 # 	   width = 50.8, height = 50.8, units = 'mm', dpi = 16)
 
 ##### Create images for meetups ################################################
-meetups <- readxl::read_excel('Schedule.xlsx', sheet = 'Meetups')
-for(i in seq_len(nrow(meetups))) {
-	datestr <- meetups[i,]$Date |> as.character()
-	meetup_image(
-		title = meetups[i,]$Topic,
-		date = format(meetups[i,]$Date, '%B %d, %Y'),
-		out_file = paste0('website/images/banners/', datestr, '-', gsub(' ', '_', meetups[i,]$Topic), '.png')
-	)
-}
+# meetups <- readxl::read_excel('Schedule.xlsx', sheet = 'Meetups')
+# for(i in seq_len(nrow(meetups))) {
+# 	datestr <- meetups[i,]$Date |> as.character()
+# 	meetup_image(
+# 		title = meetups[i,]$Topic,
+# 		date = format(meetups[i,]$Date, '%B %d, %Y'),
+# 		out_file = paste0('website/images/banners/', datestr, '-', gsub(' ', '_', meetups[i,]$Topic), '.png')
+# 	)
+# }
 
