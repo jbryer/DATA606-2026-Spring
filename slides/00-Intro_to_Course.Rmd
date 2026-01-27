@@ -327,8 +327,24 @@ The goal of this course is for *you to develop the foundation knowledge and skil
 
 * Office hours by appointment.
 
----
 
+---
+# Why R?
+
+.pull-left[
+There are many languages data scientists use. [R](https://r-project.org) is specifically designed for statistics. We will leverage many R packages that are specifically designed to conduct, teach, and communicate statistical analysis.
+
+To be a well rounded data scientists, I believe you need to have experience in both R and Python. For this course we will use R. Future courses will focus on Python.
+
+]
+.pull-right[
+```{r, echo=FALSE}
+knitr::include_graphics('images/R_logo.png')
+```
+]
+
+
+---
 # Software `r hexes(c('rmarkdown', 'RStudio', 'tinytex'))`
 
 This is an applied statistics course so we will make extensive use of the [R statistical programming language](https://www.r-project.org).

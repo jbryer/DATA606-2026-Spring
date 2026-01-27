@@ -1,0 +1,17 @@
+---
+title: "Intro to the Course"
+author: "Jason Bryer"
+date: 2026-01-26
+draft: false
+description: "Slides and recording for the *Intro to the Course* meetup."
+categories: ["Meetups"]
+image: "2026-01-26-Intro_to_the_Course.png"
+---
+
+
+[Click here](/slides/00-Intro_to_Course.html#1) to open the slides ([PDF](/slides/00-Intro_to_Course.pdf)).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LLcSKd7aSJU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
+
