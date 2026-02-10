@@ -1,0 +1,32 @@
+---
+title: "Summarizing Data"
+author: "Jason Bryer"
+date: 2026-02-09
+draft: false
+description: "Slides and recording for the *Summarizing Data* meetup."
+categories: ["Meetups"]
+image: "2026-02-09-Summarizing_Data.png"
+---
+
+
+[Click here](/slides/02-Summarizing_Data.html#1) to open the slides ([PDF](/slides/02-Summarizing_Data.pdf)).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/58-rio8Micc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+letters
+vowels <- c('a', 'e', 'i', 'o', 'u')
+letters %in% vowels
+letters %in% vowels |> which()
+
+library(ggplot2)
+library(brickset)
+data(legosets)
+
+ggplot(legosets, aes(x = US_retailPrice)) + geom_histogram()
+ggplot(legosets, aes(x = US_retailPrice)) + geom_histogram(binwidth = 50)
+ggplot(legosets, aes(x = US_retailPrice)) + geom_histogram(bins = 40)
+ggplot(legosets, aes(x = US_retailPrice)) + geom_histogram()
+ggplot(legosets, aes(x = US_retailPrice, fill = availability)) + geom_histogram()
+ggplot(legosets, aes(x = US_retailPrice)) + geom_histogram(fill = 'white', color = 'purple')
+
+
