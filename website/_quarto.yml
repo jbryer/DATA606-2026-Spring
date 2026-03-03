@@ -3,12 +3,12 @@ project:
   output-dir: "../docs/"
 
 website:
-  announcement:
-    content: "[Click here](https://cuny-msds.slack.com/archives/C0A65FTPNH0) to join the Slack channel. This will be our primary form of communication for the semester."
-    # position: below-navbar # above-navbar or below-navbar
-    icon: slack # https://icons.getbootstrap.com
-    dismissable: false
-    type: info # primary, secondary, success, danger, warning, info, light, dark
+  # announcement:
+  #   content: "[Click here](https://cuny-msds.slack.com/archives/C0A65FTPNH0) to join the Slack channel. This will be our primary form of communication for the semester."
+  #   # position: below-navbar # above-navbar or below-navbar
+  #   icon: slack # https://icons.getbootstrap.com
+  #   dismissable: false
+  #   type: info # primary, secondary, success, danger, warning, info, light, dark
   # announcement:
   #   content: "The first meetup to introduce the course will be Monday, January 26th at 8:00pm. The link to join is on the [schedule](/course/schedule.html) page. If you can't make it at this time the recording will be posted by the end of the day."
   #   # position: below-navbar # above-navbar or below-navbar
