@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-03-23-Inference_for_Categorical_Data.html",
       "/posts/2026-03-09-Foundation_for_Inference.html",
       "/posts/2026-03-02-Distributions.html",
       "/posts/2026-02-23-Probability.html",
