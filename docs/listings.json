@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/2026-04-20-Maximum_Likelihood_Estimation.html",
       "/posts/2026-04-13-Linear_Regression.html",
       "/posts/2026-03-30-Inference_for_Numerical_Data.html",
       "/posts/2026-03-23-Inference_for_Categorical_Data.html",
