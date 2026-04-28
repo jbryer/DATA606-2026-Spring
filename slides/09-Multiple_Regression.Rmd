@@ -2,7 +2,7 @@
 title: "Multiple Linear Regression"
 subtitle: "DATA 606 - Statistics & Probability for Data Analytics"
 author: Jason Bryer, Ph.D. and Angela Lui, Ph.D.
-date: "November 17, 2025"
+date: "April 27, 2026"
 output:
   xaringan::moon_reader:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
@@ -428,6 +428,153 @@ where *n* is the number of cases and *p* is the number of predictors (explanator
 * Because *p* is never negative, ${ R }_{ adj }^{ 2 }$ will always be smaller than $R^2$.
 * ${ R }_{ adj }^{ 2 }$ applies a penalty for the number of predictors included in the model.
 * Therefore, we choose models with higher ${ R }_{ adj }^{ 2 }$ over others.
+
+---
+# $R^2$ Three Ways
+
+$R^2$ between `mpg` (miles per gallon) and `wt` (weight).
+
+.pull-left[
+1\. Squared correlation
+
+```{r}
+data(mtcars)
+cor(mtcars$mpg, mtcars$wt)^2
+```
+
+2\. Square of the correlation between $y$ and $\hat{y}$.
+
+```{r}
+lm_out <- lm(mpg ~ wt, data = mtcars)
+mtcars$mpg_predicted <- predict(lm_out)
+cor(mtcars$mpg, mtcars$mpg_predicted)^2
+```
+]
+.pull-right[
+3\. $R^2 = \frac{explained \quad variability \quad in \quad y}{total \quad variability \quad in \quad y}$
+
+```{r}
+(anova_out <- anova(lm_out))
+total_ss <- sum((mtcars$mpg - mean(mtcars$mpg))^2)
+sum(anova_out$`Sum Sq`[1]) / total_ss
+```
+]
+
+
+---
+# Interaction Effects
+
+```{r}
+data("depression", package = "VisualStats")
+```
+
+```{r}
+GGally::ggpairs(depression)
+```
+
+---
+class: font80
+# Interaction Effects (cont.)
+
+.pull-left[
+```{r}
+lm(depression ~ anxiety + affect, data = depression) |> summary()
+```
+]
+
+.pull-right[
+```{r}
+lm(depression ~ anxiety * affect, data = depression) |> summary()
+```
+]
+
+---
+# Visualizing Interaction Effects
+
+```{r, eval=FALSE}
+shiny::runApp(file.path(find.package('VisualStats'), 'shiny', 'multiple_regression'))
+```
+
+```{r}
+lm_out <- lm(depression ~ anxiety * affect, data = depression)
+```
+
+.pull-left[
+```{r, eval=TRUE, fig.height=7}
+interactions::interact_plot(lm_out, 
+		pred = anxiety, modx = affect)
+```
+
+]
+.pull-right[
+```{r, eval=TRUE, fig.height=7}
+interactions::interact_plot(lm_out, 
+		pred = affect, modx = anxiety)
+```
+]
+
+
+---
+# ANOVA vs. Multiple Regression
+
+
+.pull-left[
+```{r}
+data("hand_washing", package = "VisualStats")
+```
+
+```{r}
+aov(Bacterial_Counts ~ Method, data = hand_washing) |> summary()
+```
+]
+
+.pull-right[
+```{r}
+lm(Bacterial_Counts ~ Method, data = hand_washing) |> summary()
+```
+]
+
+---
+# Summary Statistics
+
+```{r}
+VisualStats::describe_by(hand_washing$Bacterial_Counts, group = hand_washing$Method)
+```
+
+
+---
+# Dummy Coding
+
+For regression, all independent variables must be quantitative. Therefore we must code categorical as a sequence of k - 1 variables where the values are either 0 or 1. For the `hand_washing` dataset, one group is picked as the "reference group." The `lm` and `glm` functions will call the `model.matrix` automatically to do the dummy coding.
+
+.pull-left[
+```{r}
+hand_washing |> 
+	head()
+```
+]
+.pull-right[
+```{r}
+model.matrix(Bacterial_Counts ~ Method, 
+			 data = hand_washing)[,-1] |> head()
+```
+]
+
+---
+class: font80
+# Defining your own reference group
+
+Sometimes the reference group R picks may not be the one you want. For example, I tend to prefer the largest group to be the reference group.
+
+```{r}
+hand_washing <- hand_washing |> dplyr::mutate(Method2 = as.factor(Method)) |> dplyr::mutate(Method2 = relevel(Method2, ref = 'Water'))
+```
+
+--
+
+```{r}
+lm(Bacterial_Counts ~ Method2, data = hand_washing) |> summary()
+```
 
 ---
 class: left, font140
