@@ -33,9 +33,28 @@ cuny_colors <- c('#0033A1', '#FFB71B', '#9A3CB0', '#A3C9FF', '#EA0045', '#45C2B1
 
 opts_chunk$set(digits = 3, width = 120)
 
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, error = FALSE,
-					  fig.width = 12, fig.height=6, fig.align = 'center',
-					  digits = 3)
+knitr::opts_chunk$set(
+	warning = FALSE,
+	message = FALSE,
+	error = FALSE,
+	fig.width = 12,
+	fig.height = 6,
+	out.width = '90%',
+	fig.align = 'center',
+	digits = 3,
+	# width = 120,
+	dev.args = list(bg = 'transparent')
+)
+
+##### Configure the default ggplot2 theme.
+# This also ensures the background is transparent so it matches the slides
+# ggplot2::theme_set(ggplot2::theme_minimal(base_size = 16))
+ggplot2::update_theme(
+	panel.background = element_rect(fill = "transparent", colour = NA),
+	plot.background = element_rect(fill = "transparent", colour = NA),
+	legend.background = element_rect(fill = "transparent"),
+	legend.box.background = element_rect(fill = "transparent")
+)
 
 # The following is to fix a DT::datatable issue with Xaringan
 # https://github.com/yihui/xaringan/issues/293

@@ -126,7 +126,7 @@ Video series by Rasmus Baath [Part 1](https://www.youtube.com/watch?v=3OJEae7Qb_
 # Bayes Theorem
 
 
-$$ P(A|B)=\frac{P(B|A)P(A)}{P(B|A)P(A)+P(B|{A}^{'})P({A}^{'})} $$
+$$ P\left( A|B \right) =\frac { P\left( B|A \right) P\left( A \right)  }{ P\left( B \right)  }  $$
 
 
 Consider the following data from a cancer test:
@@ -135,26 +135,29 @@ Consider the following data from a cancer test:
 * 80% of mammograms detect breast cancer when it is there (and therefore 20% miss it).
 * 9.6% of mammograms detect breast cancer when it's not there (and therefore 90.4% correctly return a negative result).
 
-&nbsp;        | Cancer (1%) | No Cancer (99%)
---------------|-------------|-----------------
-Test postive  | 80%         |  9.6%
-Test negative | 20%         |  90.4%
+&nbsp;         | Cancer (1%) | No Cancer (99%)
+---------------|-------------|-----------------
+Test positive  | 80%         |  9.6%
+Test negative  | 20%         |  90.4%
 
 
 ---
 # How accurate is the test?
 
-Now suppose you get a positive test result. What are the chances you have cancer?  
-80%? 99%? 1%?
+Now suppose you get a positive test result. What are the chances you have cancer? 80%? 99%? 1%?
 
-* Ok, we got a positive result. It means we're somewhere in the top row of our table. Let's not assume anything - it could be a true positive or a false positive.
-* The chances of a true positive = chance you have cancer * chance test caught it = 1% * 80% = .008
-* The chances of a false positive = chance you don't have cancer * chance test caught it anyway = 99% * 9.6% = 0.09504
 
-&nbsp;        | Cancer (1%)       | No Cancer (99%)      |
---------------|-------------------|----------------------|-------------
-Test postive  | True +: 1% * 80%  | False +: 99% * 9.6%  | **10.304%**
-Test negative | False -: 1% * 20% | True -: 99% * 90.4%  | **89.696%**
+--
+
+
+* OK, we got a positive result. It means we're somewhere in the top row of our table. Let's not assume anything - it could be a true positive or a false positive.
+* $P(PositiveTest | Cancer)$: The chances of a true positive = chance you have cancer * chance test caught it = 1% * 80% = .008
+* $P(PositiveTest | NotCancer)$: The chances of a false positive = chance you don't have cancer * chance test caught it anyway = 99% * 9.6% = 0.09504
+
+&nbsp;         | Cancer (1%)       | No Cancer (99%)      | Totals
+---------------|-------------------|----------------------|-------------
+Test positive  | True +: 1% * 80%  | False +: 99% * 9.6%  | **10.304%**
+Test negative  | False -: 1% * 20% | True -: 99% * 90.4%  | **89.696%**
 
 ---
 # How accurate is the test?
@@ -167,13 +170,171 @@ $$P(C | P) = \frac{P(P|C) P(C)}{P(P)} = \frac{.8 * .01}{.008 + 0.095} \approx .0
 
 **So, our chance of cancer is .008/.10304 = 0.0776, or about 7.8%.**
 
+```{r wafflesetup, include=FALSE}
+library(waffle) # remotes::install_github("hrbrmstr/waffle")
+library(ggplot2)
+library(fontawesome)
+library(extrafont)
+library(dplyr)
+library(stringr)
+
+palette <- c("#7fc97f", "#386cb0", "#beaed4", "#fdc086", "#ffff99")
+
+cancer <- data.frame(
+	cancer = c(rep('No', 99), rep('Yes', 1))
+) |> dplyr::count(cancer) |> dplyr::mutate(n = n * 10)
+fa_icon <- 'female'
+
+```
+
+```{r waffleinstall, eval=TRUE, include=FALSE}
+# https://www.listendata.com/2019/06/create-infographics-with-r.html
+# https://www.youtube.com/watch?v=HZGCoVF3YvM&t=29s
+
+# Install FontAwesome fonts
+font_library <- '~/Library/Fonts' |> path.expand() # Location for Macs
+fa_files <- c('fa-brands-400.ttf', 'fa-regular-400.ttf', 'fa-solid-900.ttf')
+fa_url <- 'https://github.com/FortAwesome/font-awesome-sass/raw/refs/heads/main/assets/fonts/font-awesome/'
+if(!all(fa_files %in% list.files(font_library))) {
+	for(i in paste0(fa_url, fa_files)) {
+		download.file(i, basename(i))
+		system(paste0('open ', basename(i))) # This will prompt to install for the system
+		# unlink('FontAwesome.ttf')
+	}
+}
+# Available fonts
+# fonttable() %>% filter(str_detect(FamilyName,"^Font.")) |> select(fontfile,FamilyName)
+# Import fonts to make avaiable
+extrafont::font_import(path = font_library, pattern = "fa-", prompt =  FALSE)
+
+library(showtext)
+font_add(family = "FontAwesome5Free-Solid", regular = file.path(font_library, 'fa-solid-900.ttf'))
+font_add(family = "FontAwesome5Free-Regular", regular = file.path(font_library, 'fa-regular-400.ttf'))
+font_add(family = "FontAwesome5Brands-Regular", regular = file.path(font_library, 'fa-brands-400.ttf'))
+showtext_auto()
+
+```
 
 ---
-# Bayes Formula
+# Visualizing Bayes Theorem
 
-It all comes down to the chance of a true positive result divided by the chance of any positive result. We can simplify the equation to:
+Out of 1,000 women, 10 have cancer (1%).
 
-$$ P\left( A|B \right) =\frac { P\left( B|A \right) P\left( A \right)  }{ P\left( B \right)  }  $$
+```{r, echo=FALSE, fig.width=14, fig.height=6.5}
+ggplot(cancer, aes(label = cancer, values = n)) +
+	geom_pictogram(
+		aes(color = cancer),
+		n_rows = 20,
+		size = 5,
+		make_proportional = FALSE
+	) +
+	scale_color_manual(
+		name = "Cancer",
+		values = palette[1:2],
+		labels = c("No", "Yes")
+	) +
+	scale_label_pictogram(
+		name = "Cancer",
+		values = rep(fa_icon, 2),
+		labels = c("No", "Yes")
+	) +
+	theme_minimal() +
+	theme_enhance_waffle() +
+	theme(legend.position = 'none')
+```
+
+---
+# Visualizing Bayes Theorem
+
+Of the 990 women who don't have cancer, approximately 95 (9.6%) will have a positive result.
+
+```{r, echo=FALSE, fig.width=14, fig.height=6.5}
+ggplot(cancer, aes(label = cancer, values = n)) +
+	geom_rect(aes(xmin = 40.5, xmax = 50.5, ymin = 0.5, ymax = 10.75),
+			  fill = palette[4], color = palette[4], alpha = 0.1) +
+	geom_pictogram(
+		aes(color = cancer),
+		n_rows = 20,
+		size = 5,
+		make_proportional = FALSE
+	) +
+	scale_color_manual(
+		name = "Cancer",
+		values = palette[1:2],
+		labels = c("No", "Yes")
+	) +
+	scale_label_pictogram(
+		name = "Cancer",
+		values = rep(fa_icon, 2),
+		labels = c("No", "Yes")
+	) +
+	theme_minimal() +
+	theme_enhance_waffle() +
+	theme(legend.position = 'none')
+```
+
+---
+# Visualizing Bayes Theorem
+
+Of the 10 women (1% of population), 8 (80%) will get a positive test result.
+
+```{r, echo=FALSE, fig.width=14, fig.height=6.5}
+ggplot(cancer, aes(label = cancer, values = n)) +
+	geom_rect(aes(xmin = 49.5, xmax = 50.5, ymin = 12.75, ymax = 21),
+			  fill = palette[3], color = palette[3], alpha = 0.1) +
+	geom_pictogram(
+		aes(color = cancer),
+		n_rows = 20,
+		size = 5,
+		make_proportional = FALSE
+	) +
+	scale_color_manual(
+		name = "Cancer",
+		values = palette[1:2],
+		labels = c("No", "Yes")
+	) +
+	scale_label_pictogram(
+		name = "Cancer",
+		values = rep(fa_icon, 2),
+		labels = c("No", "Yes")
+	) +
+	theme_minimal() +
+	theme_enhance_waffle() +
+	theme(legend.position = 'none')
+```
+
+---
+# Visualizing Bayes Theorem
+
+So in total, there will be 103 positive test results. 8 will actually have cancer, 95 will not resulting in a 7.8% chance of actually having cancer with a positive test result.
+
+```{r, echo=FALSE, fig.width=14, fig.height=6.5}
+ggplot(cancer, aes(label = cancer, values = n)) +
+	geom_rect(aes(xmin = 49.5, xmax = 50.5, ymin = 12.75, ymax = 21),
+			  fill = palette[3], color = palette[3], alpha = 0.1) +
+	geom_rect(aes(xmin = 40.5, xmax = 50.5, ymin = 0.5, ymax = 10.75),
+			  fill = palette[4], color = palette[4], alpha = 0.1) +
+	geom_pictogram(
+		aes(color = cancer),
+		n_rows = 20,
+		size = 5,
+		make_proportional = FALSE
+	) +
+	scale_color_manual(
+		name = "Cancer",
+		values = palette[1:2],
+		labels = c("No", "Yes")
+	) +
+	scale_label_pictogram(
+		name = "Cancer",
+		values = rep(fa_icon, 2),
+		labels = c("No", "Yes")
+	) +
+	theme_minimal() +
+	theme_enhance_waffle() +
+	theme(legend.position = 'none')
+```
+
 
 ---
 class: middle, center
@@ -181,6 +342,7 @@ class: middle, center
 <img src='images/Bayes_Theorem_web.png' height='90%' />
 
 ---
+class: font80
 # How many fish are in the lake?
 
 * Catch them all, count them. Not practical (or even possible)!
@@ -201,11 +363,12 @@ Adopted from Rasmath Bääth useR! 2015 workshop: http://www.sumsar.net/files/ac
 </font>
 
 ---
+class: font80
 # Strategy for fitting a model
 
 Step 1: Define Prior Distribution. Draw a lot of random samples from the "prior" probability distribution on the parameters.
 
-```{r, fig.width=8, fig.height=3}
+```{r, fig.width=8, fig.height=2.5}
 n_draw <- 100000
 n_fish <- sample(20:250, n_draw, replace = TRUE)
 head(n_fish, n=10)
@@ -213,9 +376,12 @@ hist(n_fish, main="Prior Distribution")
 ```
 
 ---
+class: font80
 # Strategy for fitting a model
 
 Step 2: Plug in each draw into the generative model which generates "fake" data.
+
+.pull-left[
 
 ```{r}
 pick_fish <- function(n_fish) { # The generative model
@@ -226,35 +392,49 @@ n_marked <- rep(NA, n_draw)
 for(i in 1:n_draw) {
 	n_marked[i] <- pick_fish(n_fish[i])
 }
-head(n_marked, n=10)
 ```
 
+]
+.pull-right[
+
+```{r}
+cbind(caught_twice = head(n_marked, n=10),
+	  pop_est = head(n_fish, n=10)
+)
+```
+
+]
+
 ---
+class: font80
 # Strategy for fitting a model
 
 Step 3: Keep only those parameter values that generated the data that was actually observed (in this case, 5).
 
-```{r, fig.width=8, fig.height=3.5}
+```{r, fig.width=8, fig.height=2.5}
 post_fish <- n_fish[n_marked == 5]
+length(post_fish)
 hist(post_fish, main='Posterior Distribution')
 abline(v=median(post_fish), col='red')
 abline(v=quantile(post_fish, probs=c(.25, .75)), col='green')
 ```
 
 ---
+class: font80
 # What if we have better prior information?
 
 An "expert" believes there are around 200 fish in the pond. Insteand of a uniform distribution, we can use a binomial distribution to define our "prior" distribution.
 
-```{r, fig.width=8, fig.height=3.5}
+```{r, fig.width=8, fig.height=2.5}
 n_fish <- rnbinom(n_draw, mu = 200 - 20, size = 4) + 20
 hist(n_fish, main='Prior Distribution')
 ```
 
 ---
+class: font80
 # What if we have better prior information? 
 
-```{r, fig.width=8, fig.height=3.5}
+```{r, fig.width=8, fig.height=2.5}
 n_marked <- rep(NA, n_draw)
 for(i in 1:n_draw) {
 	n_marked[i] <- pick_fish(n_fish[i])
@@ -276,6 +456,232 @@ DATA606::shiny_demo('BayesBilliards', package='DATA606')
 
 See also: http://www.bryer.org/post/2016-02-21-bayes_billiards_shiny/
 
+---
+# Bayesian Regression
+
+```{r, echo=FALSE}
+library(rstanarm)
+study <- data.frame(
+	Hours=c(0.50,0.75,1.00,1.25,1.50,1.75,1.75,2.00,2.25,2.50,2.75,3.00,
+			3.25,3.50,4.00,4.25,4.50,4.75,5.00,5.50),
+	Pass=c(0,0,0,0,0,0,1,0,1,0,1,0,1,0,1,1,1,1,1,1)
+)
+```
+
+Returning to the `study` example from the logistic regression lecture, we can use the `stan_glm` function from the `rstanarm` R package.
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+stan_out <- rstanarm::stan_glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = "logit"),
+	seed = 2112, 
+	refresh = 0)
+```
+
+]
+
+.pull-right[
+**Frequentist GLM**
+
+```{r}
+glm_out <- glm(
+	Pass ~ Hours,
+	data = study,
+	family = binomial(link = 'logit')
+)
+```
+
+]
+
+
+```{r, include=FALSE, eval=FALSE}
+bayesplot::mcmc_trace(stan_out, pars = c("(Intercept)", "Hours"))
+coefs <- as.matrix(stan_out, pars = "Hours") |> as.data.frame()
+coefs$iteration <- 1:nrow(coefs)
+ggplot(coefs, aes(x = iteration, y = Hours)) + geom_path()
+hist(coefs)
+class(coefs)
+```
+
+---
+class: font80
+# Bayesian Regression (cont.)
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+summary(stan_out, pars = c("alpha", "beta"))
+```
+
+]
+
+.pull-right[
+
+**Frequentist GLM**
+
+```{r}
+summary(glm_out)
+```
+
+]
+
+---
+# Plotting output
+
+.pull-left[
+**Bayesian GLM**
+
+```{r}
+# From the rstanarm package
+plot(stan_out, 
+	 plotfun = 'areas',
+	 prob = 0.95,
+	 prob_outer = 0.99)
+```
+
+]
+.pull-right[
+**Frequentist GLM**
+
+```{r}
+jtools::plot_summs(glm_out, 
+				   plot.distributions = TRUE, 
+				   inner_ci_level = 0.95,
+				   ci_level = 0.99,
+				   omit.coefs = NULL)
+```
+]
+
+---
+# Monte Carlo Simulation
+
+A Monte Carlo simulation is a computerized mathematical technique that uses repeated random sampling to estimate the probability of various outcomes in uncertain systems. 
+
+It is named after the famous casino town in Monaco, this method relies on the element of chance to solve complex, non-deterministic problems that lack a simple formula.
+ 
+The process involves building a model and running it thousands or millions of times, each time using different random values for the uncertain input variables.
+
+---
+# Estimating $\pi$ using Monte Carlo
+
+The radius of the circle is 1, the width of the square is also 1.
+
+```{r, echo=FALSE}
+r <- 1
+
+square_center <- c(r, r)
+circle_center <- c(2 * r + r, r)
+x_range <- c(0, 4 * r)
+y_range <- c(0, 2 * r)
+n_sims <- 10000
+
+set.seed(2112)
+
+df_sim <- data.frame(
+	x = runif(n_sims, min = x_range[1], max = x_range[2]),
+	y = runif(n_sims, min = y_range[1], max = y_range[2])
+)
+
+#' Returns whether the points are in a circle.
+#' @param df a data frame where the first two columns coorespond to
+#'        the x and y coordinates, respectively.
+#' @param x vector of x coordinates.
+#' @param y vector of y coordinates.
+#' @param center vector of x and y coordinates for the center of the circle.
+#' @param r the radius of the circle.
+in_circle <- function(df = data.frame(x = x, y = y), x, y, center, r) {
+	d <- apply(df[,1:2], 1, function(x) { x - center })
+	d <- t(d^2)
+	return(apply(d, 1, sum) < (r)^2)
+}
+
+#' Returns whether the points are in a rectanble.
+#' @param df a data frame where the first two columns coorespond to
+#'        the x and y coordinates, respectively.
+#' @param x vector of x coordinates.
+#' @param y vector of y coordinates.
+#' @param xmin lower left corner of the rectangle.
+#' @param xmax upper right corner of the rectangle.
+#' @param ymin lower left corner of the rectangle.
+#' @param ymax upper right corner of the rectangle.
+in_rectangle <- function(df = data.frame(x = x, y = y), x, y, xmin, xmax, ymin, ymax) {
+	apply(df, 1, function(coord) {
+		coord[1] >= xmin & coord[1] <= xmax & coord[2] >= ymin & coord[2] <= ymax
+	})
+}
+
+df_sim$in_circle <- in_circle(df = df_sim[,1:2], center = circle_center, r =r)
+df_sim$in_square <- in_rectangle(df = df_sim[,1:2],
+						  xmin = square_center[1] - r/2,
+						  xmax = square_center[1] + r/2,
+						  ymin = square_center[2] - r/2,
+						  ymax = square_center[2] + r/2)
+df_sim$in_shape <- df_sim$in_circle | df_sim$in_square
+
+geom_circle <- function(r, xc, yc, color = "black", fill = NA, ...) {
+	ggplot2::annotate(
+		geom = "ribbon", 
+		x = xc + r * cos(seq(0, pi, length.out=100)), 			 
+		ymin = yc + r * sin(seq(0, -pi, length.out=100)), 
+		ymax = yc + r * sin(seq(0, pi, length.out=100)), 
+		color = color, 
+		fill = fill, 
+		...)
+}
+
+n_square <- sum(df_sim$in_square)
+n_circle <- sum(df_sim$in_circle)
+
+ggplot() +
+	geom_point(data = df_sim, aes(x = x, y = y, color = in_shape),
+			   alpha = 0.5, size = 0.1) +
+	geom_circle(r = r, xc = circle_center[1], yc = circle_center[2],
+				color = 'steelblue',
+				linewidth = 1.5) +
+	geom_rect(aes(xmin = square_center[1] - r/2, ymin = square_center[2] - r/2,
+				  xmax = square_center[1] + r/2, ymax = square_center[2] + r/2),
+			  fill = NA,
+			  color = 'steelblue',
+			  linewidth = 1.5) +
+	ggplot2::annotate(geom = 'text', x = square_center[1], y = square_center[2],
+			 label = prettyNum(n_square, big.mark = ','), size = 8) +
+	ggplot2::annotate(geom = 'text', x = circle_center[1], y = circle_center[2],
+			 label = prettyNum(n_circle, big.mark = ','), size = 8) +
+	xlim(x_range) + ylim(y_range) +
+	coord_equal() +
+	theme(legend.position = 'none') +
+	ggtitle('Estimating π using monte carlo simulation',
+			subtitle = paste0(
+				'n intereations = ', prettyNum(nrow(df_sim), big.mark = ','), '\n',
+				'Points in circle / points in square ≈ ',
+				round(n_circle / n_square, digits = 4)))
+
+```
+
+---
+# Estimating $\pi$ using Monte Carlo
+
+We can see how this method converges on the actual value of $\pi$ as the number of random samples increases.
+
+```{r, echo=FALSE}
+df_sim |>
+	dplyr::mutate(
+		iter = 1:dplyr::n(),
+		cum_circle = cumsum(in_circle),
+		cum_square = cumsum(in_square),
+		ratio = cum_circle / cum_square
+	) |>
+	dplyr::filter(!is.na(ratio)) |>
+	ggplot(aes(x = iter, y = ratio)) +
+		geom_hline(yintercept = pi, color = 'steelblue', linewidth = 1.5) +
+		geom_path() +
+		xlab('Iteration') + ylab('Ratio of number of points in circle to square')
+```
 
 
 
@@ -423,7 +829,7 @@ tab_test <- table(heart_test$prediciton_class, heart_test$num) %>%
 The overall accuracy is `r round((tab_test[1,1] + tab_test[2,2]) * 100, digits = 2)`%, or `r round( (tab_test[1,1] + tab_test[2,2] - max(survived_test) ) * 100, digits = 1)`% better than guessing.
 
 ---
-class: font90
+class: font80
 # Receiver Operating Characteristic (ROC) Curve
 
 The ROC curve is created by plotting the true positive rate (TPR; AKA sensitivity) against the false positive rate (FPR; AKA probability of false alarm) at various threshold settings.
@@ -472,7 +878,7 @@ plot(roc)
 
 
 ---
-class: font90
+class: font80
 # Caution on Interpreting Accuracy
 
 - [Loh, Sooo, and Zing](http://cs229.stanford.edu/proj2016/report/LohSooXing-PredictingSexualOrientationBasedOnFacebookStatusUpdates-report.pdf) (2016) predicted sexual orientation based on Facebook Status.
@@ -771,7 +1177,7 @@ Ensemble methods use multiple models that are combined by weighting, or averagin
 * *Super Learner* - An ensemble of ensembles. See https://cran.r-project.org/web/packages/SuperLearner/vignettes/Guide-to-SuperLearner.html
 
 ---
-class: font90
+class: font80
 # Random Forests
 
 The random forest algorithm works as follows:
