@@ -1,7 +1,7 @@
 ---
 title: "DATA 606 Presentations"
 subtitle: "Statistics & Probability for Data Analytics"
-date: "Fall 2025"
+date: "Spring 2026"
 output:
   xaringan::moon_reader:
     css: ["assets/mtheme_max.css", "assets/fonts_mtheme_max.css"]
@@ -24,7 +24,7 @@ editor_options:
 
 ```{r setup, include = FALSE}
 source('../config.R')
-peer_feedback_form <- 'https://forms.gle/aNrd6Gm1VMFSmpsi8'
+peer_feedback_form <- 'https://forms.gle/a4PUQ8qKBeJ7vj4x9'
 ```
 
 class: center, middle, inverse, title-slide
@@ -49,6 +49,8 @@ class: font100
 # Directions
 
 .pull-left[
+* Please turn on your cameras!
+
 * You have no more than 10 minutes.
 
 * If your abstract is in your slide deck, please don't read it.

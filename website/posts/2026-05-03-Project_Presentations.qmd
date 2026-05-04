@@ -1,0 +1,43 @@
+---
+title: "Project Presentations"
+author: "Jason Bryer"
+date: "2026-05-03"
+image: "project_presentations.png"
+description: "Important information about project presentations"
+---
+
+<style>
+.slide-deck {
+    border: 3px solid #dee2e6;
+    width: 100%;
+    height: 475px;
+}
+</style>
+
+
+```{r, include=FALSE}
+source('../../config.R')
+
+```
+
+```{r, eval=FALSE, echo=FALSE, message=FALSE, warning=FALSE, results='hide'}
+meetup_image(out_file = 'project_presentations.png',
+			 title = 'Project Presentations!',
+			 date = ' ')
+```
+
+This week marks the start of our final presentations. Thank you to those who have already signed up for a timeslot. If you have not yet done so, please do so now: [presentation sign-up sheet](`r project_signup_link`)
+
+Please note: **IT IS REQUIRED (not optional)** to sign up and present synchronously. Apart from exceptional circumstances that we have discussed and agreed upon before now, we will not accept recordings. 
+
+Reminder that details on the project, including the grading rubric, is available here: [/assignments/project.html](https://`r paste0(tolower(semester), year)`.data606.net/assignments/project.html).
+
+An example project slide deck is available [here](/slides/Example_Project_Slides.html) ([PDF](/slides/Example_Project_Slides.pdf)).
+
+Some important information about each presentation session:
+
+* Please turn on your cameras!
+* You have no more than 10 minutes.
+* If your abstract is in your slide deck, please don't read it.
+* Complete the peer feedback form for each presentations.
+* Submit a PDF of your slides and abstract to BrightSpace.

@@ -8,6 +8,11 @@ output:
 ---
 
 ```{r setup, include=FALSE}
+if(!require(urbnmapr)) {
+	remotes::install_github("UrbanInstitute/urbnmapr")
+	library(urbnmapr)
+}
+
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE, error =FALSE)
 ```
 
