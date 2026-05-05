@@ -39,7 +39,7 @@ knitr::opts_chunk$set(
 	error = FALSE,
 	fig.width = 12,
 	fig.height = 6,
-	out.width = '90%',
+	# out.width = '90%',
 	fig.align = 'center',
 	digits = 3,
 	# width = 120,
